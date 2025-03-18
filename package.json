@@ -1,0 +1,14 @@
+{
+  "name": "vapor-npx",
+  "version": "1.0.0",
+  "description": "CLI to quickly create a Shopify starter theme repo ✳️",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "create-vapor": "./bin/index.js"
+  },
+  "author": "Cory Kelley",
+  "license": "ISC"
+}
