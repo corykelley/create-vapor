@@ -1,9 +1,14 @@
 #! /usr/bin/env node
-const { execSync } = require("child_process");
-const fs = require("fs");
-const path = require("path");
-const readline = require("readline");
-const ora = require("ora");
+import { execSync } from "child_process";
+import fs from "fs";
+import path from "path";
+import readline from "readline";
+import ora from "ora";
+import { fileURLToPath } from "url";
+
+// Get the current file path in ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Parse command line arguments
 const args = process.argv.slice(2);
@@ -65,75 +70,72 @@ if (nonInteractive) {
     output: process.stdout,
   });
 
-  const promptUser = () => {
-    return new Promise(async (resolve) => {
-      // Prompt 1: Theme name
-      const promptThemeName = () => {
-        return new Promise((resolveThemeName) => {
-          rl.question(
-            "What would you like to name your theme? (default: shopify-custom-theme): ",
-            (answer) => {
-              themeName = answer.trim() || "shopify-custom-theme";
-              resolveThemeName();
+  const promptUser = async () => {
+    // Prompt 1: Theme name
+    const promptThemeName = () => {
+      return new Promise((resolveThemeName) => {
+        rl.question(
+          "What would you like to name your theme? (default: shopify-custom-theme): ",
+          (answer) => {
+            themeName = answer.trim() || "shopify-custom-theme";
+            resolveThemeName();
+          }
+        );
+      });
+    };
+
+    // Prompt 2: Store URL
+    const promptStoreUrl = () => {
+      return new Promise((resolveStoreUrl) => {
+        rl.question(
+          "What is your Shopify store URL? (yourstore.myshopify.com): ",
+          (answer) => {
+            const url = answer.trim();
+            if (url && !url.endsWith(".myshopify.com")) {
+              console.log(
+                "Store URL must end with .myshopify.com. Please try again."
+              );
+              return promptStoreUrl().then(resolveStoreUrl);
             }
-          );
-        });
-      };
+            storeUrl = url || "example-store.myshopify.com";
+            resolveStoreUrl();
+          }
+        );
+      });
+    };
 
-      // Prompt 2: Store URL
-      const promptStoreUrl = () => {
-        return new Promise((resolveStoreUrl) => {
-          rl.question(
-            "What is your Shopify store URL? (yourstore.myshopify.com): ",
-            (answer) => {
-              const url = answer.trim();
-              if (url && !url.endsWith(".myshopify.com")) {
-                console.log(
-                  "Store URL must end with .myshopify.com. Please try again."
-                );
-                return promptStoreUrl().then(resolveStoreUrl);
-              }
-              storeUrl = url || "example-store.myshopify.com";
-              resolveStoreUrl();
-            }
-          );
-        });
-      };
+    // Prompt 3: Git initialization
+    const promptGitInit = () => {
+      return new Promise((resolveGitInit) => {
+        rl.question(
+          "Would you like to initialize a git repository? (Y/n): ",
+          (answer) => {
+            initGit = answer.trim().toLowerCase() !== "n";
+            resolveGitInit();
+          }
+        );
+      });
+    };
 
-      // Prompt 3: Git initialization
-      const promptGitInit = () => {
-        return new Promise((resolveGitInit) => {
-          rl.question(
-            "Would you like to initialize a git repository? (Y/n): ",
-            (answer) => {
-              initGit = answer.trim().toLowerCase() !== "n";
-              resolveGitInit();
-            }
-          );
-        });
-      };
+    // Prompt 4: Install dependencies
+    const promptInstallDeps = () => {
+      return new Promise((resolveInstallDeps) => {
+        rl.question(
+          "Would you like to install dependencies now? (Y/n): ",
+          (answer) => {
+            installDeps = answer.trim().toLowerCase() !== "n";
+            resolveInstallDeps();
+          }
+        );
+      });
+    };
 
-      // Prompt 4: Install dependencies
-      const promptInstallDeps = () => {
-        return new Promise((resolveInstallDeps) => {
-          rl.question(
-            "Would you like to install dependencies now? (Y/n): ",
-            (answer) => {
-              installDeps = answer.trim().toLowerCase() !== "n";
-              resolveInstallDeps();
-            }
-          );
-        });
-      };
+    await promptThemeName();
+    await promptStoreUrl();
+    await promptGitInit();
+    await promptInstallDeps();
 
-      await promptThemeName();
-      await promptStoreUrl();
-      await promptGitInit();
-      await promptInstallDeps();
-
-      rl.close();
-      resolve();
-    });
+    rl.close();
   };
 
   await promptUser();
