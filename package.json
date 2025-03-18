@@ -1,14 +1,23 @@
 {
-  "name": "vapor-npx",
+  "name": "shopify-theme-creator",
   "version": "1.0.0",
-  "description": "CLI to quickly create a Shopify starter theme repo ✳️",
+  "description": "Vapor 🧪:A CLI tool to create Shopify themes",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "bin": {
-    "create-vapor": "./bin/index.js"
+    "shopify-theme-creator": "./index.js"
   },
-  "author": "Cory Kelley",
-  "license": "ISC"
+  "dependencies": {
+    "ora": "^5.4.1"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "keywords": [
+    "shopify",
+    "theme",
+    "generator",
+    "cli"
+  ],
+  "author": "",
+  "license": "MIT"
 }
