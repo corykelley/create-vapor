@@ -1,10 +1,10 @@
 {
   "name": "create-vapor",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Vapor 🧪:A CLI tool to create Shopify themes",
   "main": "index.js",
   "bin": {
-    "create-vapor": ".bin//index.js"
+    "create-vapor": "./bin/index.js"
   },
   "dependencies": {
     "ora": "^5.4.1"
