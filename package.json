@@ -1,6 +1,6 @@
 {
   "name": "create-vapor",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Vapor 🧪:A CLI tool to create Shopify themes",
   "main": "index.js",
   "bin": {
